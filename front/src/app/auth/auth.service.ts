@@ -1,9 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, tap } from "rxjs";
 import { environment } from "src/environments/environment";
 import { ApiResponse } from "../models/api-response";
 import { AuthResponse } from "../models/auth-response";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,8 @@ export class AuthService {
 
     readonly baseUrl = `${environment.baseUrl}/auth`;
     readonly INTERN_APP_USER = "INTER_APP_USER";
+
+    constructor(private _http : HttpClient, private _router : Router){}
 
     private loggedUserSubject = new BehaviorSubject<any | null>(null);
     setLoggedUser(user : any){
@@ -21,11 +24,12 @@ export class AuthService {
         return this.loggedUserSubject.getValue();
     }
 
-    constructor(private _http : HttpClient){}
 
 
     login(email : string, password : string){
-        return this._http.post<ApiResponse<AuthResponse>>(`${this.baseUrl}/login`, { email, password })
+        return this._http.post<ApiResponse<AuthResponse>>(`${this.baseUrl}/login`, { email, password }).pipe(
+            tap(res=>this.performLogin(res.data))
+        )
     }   
 
     
@@ -35,7 +39,7 @@ export class AuthService {
 
 
     saveLoginToLS(payload : any){
-        localStorage.setItem(this.INTERN_APP_USER, payload)
+        localStorage.setItem(this.INTERN_APP_USER, JSON.stringify(payload))
     }
 
     performLogin(payload : AuthResponse){
@@ -43,13 +47,33 @@ export class AuthService {
         this.saveLoginToLS(payload);
     }
 
+    redirect(role : string){
+        if(role == "ADMIN"){
+          this._router.navigateByUrl("/admin")
+        }
+        if(role == "ASSISTANT"){
+          this._router.navigateByUrl("/assistant")
+        }
+        if(role == "STAGIAIRE"){
+          this._router.navigateByUrl("/stagiaire")
+        }
+        if(role == "ENCADRABT"){
+          this._router.navigateByUrl("/encadrant")
+        }
+        if(!role){
+            this._router.navigateByUrl("")
+        }
+    }
+
     autoConnect(){
         const data = localStorage.getItem(this.INTERN_APP_USER);
         if(!data){
+            this.redirect(null);
             return;
         }
-        const user = JSON.parse(data);
+        const user = JSON.parse(data) as AuthResponse;
         this.setLoggedUser(user);
+        this.redirect(user.role);
     }
 
     logout(){

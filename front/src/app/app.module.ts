@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // project import
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SharedModule } from './theme/shared/shared.module';
+import { HttpClientModule } from '@angular/common/http';
 // import { AdminComponent } from './theme/layouts/admin/admin.component';
 
 
@@ -16,9 +18,11 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule, 
-    AppRoutingModule, 
+    AppRoutingModule,
+    SharedModule, 
+    HttpClientModule,
     BrowserAnimationsModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

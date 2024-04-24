@@ -22,19 +22,7 @@ export default class LoginComponent implements OnInit{
   login(){
     this._auth.login(this.email, this.password).subscribe(
       res => {
-        this._auth.performLogin(res.data)
-        if(res.data.role == "ADMIN"){
-          this._router.navigateByUrl("/admin")
-        }
-        if(res.data.role == "ASSISTANT"){
-          this._router.navigateByUrl("/assistant")
-        }
-        if(res.data.role == "STAGIAIRE"){
-          this._router.navigateByUrl("/stagiaire")
-        }
-        if(res.data.role == "ENCADRABT"){
-          this._router.navigateByUrl("/encadrant")
-        }
+        this._auth.redirect(res.data.role);
       }
     )
   }

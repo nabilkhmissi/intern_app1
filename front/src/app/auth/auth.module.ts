@@ -10,7 +10,7 @@ import { FormsModule } from "@angular/forms";
 @NgModule({
     imports : [
         FormsModule,
-        HttpClientModule,
+        // HttpClientModule,
         RouterModule.forChild([
         { path : '', redirectTo : 'login', pathMatch : "full" },
         { path : 'login', component : LoginComponent },

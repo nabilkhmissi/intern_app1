@@ -22,6 +22,7 @@ import { NavContentComponent } from './components/navigation/nav-content/nav-con
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { NavLeftComponent } from './components/nav-bar/nav-left/nav-left.component';
 import { NavRightComponent } from './components/nav-bar/nav-right/nav-right.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,9 @@ import { NavRightComponent } from './components/nav-bar/nav-right/nav-right.comp
     NavBarComponent,
     NavLeftComponent,
     NavRightComponent,
+  ],
+  providers : [
+    AuthService
   ]
 })
 export class SharedModule {}
