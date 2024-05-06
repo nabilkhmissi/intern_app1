@@ -8,19 +8,21 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./register.component.scss']
 })
 export default class RegisterComponent {
-  // public method
-  SignUpOptions = [
-    {
-      image: 'assets/images/authentication/google.svg',
-      name: 'Google'
-    },
-    {
-      image: 'assets/images/authentication/twitter.svg',
-      name: 'Twitter'
-    },
-    {
-      image: 'assets/images/authentication/facebook.svg',
-      name: 'Facebook'
-    }
-  ];
+
+  email = "";
+  password : "";
+  comfirmPassword = "";
+
+  firstName = "";
+  lastName = "";
+
+  fullName = `${this.firstName} ${this.lastName}`;
+  phone = "";
+  role =  "";
+  nationality = "";
+  dateOfBirth = "";
+  address = "";
+  department = "";
+  gender = "";
+  
 }
